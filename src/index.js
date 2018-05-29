@@ -125,6 +125,10 @@ export default class extends Component {
     onChange: (v) => console.log(v)
   }
 
+  componentDidUpdate() {
+    this.inputWidth = this.input.current.offsetWidth
+  }
+
   hide = e => {
     const {type} = e.target.dataset;
     if(type !== 'value') {
@@ -142,10 +146,6 @@ export default class extends Component {
     const {currentText} = this.state;
     this.setState({isOpen: true});
   };
-
-  componentDidUpdate = () => {
-    this.inputWidth =  this.input.current.offsetWidth
-  }
 
   handleChange = e => {
     this.setState({currentText: e.target.value, isOpen: true});
@@ -185,7 +185,9 @@ export default class extends Component {
   render() {
     const {width, height, values} = this.props;
     const {isOpen, currentText, activeValues, value, hoveredListIndex} = this.state;
+    const filteredValues = values.filter(v => v.includes(currentText) || currentText === '')
     const inputWidth = 10 + this.inputWidth + "px"
+
     return (
       <div style={{width}} onClick={this.focusTextBox}>
         <div style={{...styles.box, minHeight: height}}>
@@ -215,12 +217,10 @@ export default class extends Component {
           />
         </div>
         {
-          isOpen && values.length > 0 &&
+          isOpen && filteredValues.length > 0 &&
             <div style={{...styles.dropdown, width}}>
               {
-                values
-                .filter(v => v.includes(currentText) || currentText === '')
-                .map((x, i) =>
+                filteredValues.map((x, i) =>
                   <div
                     data-type="value"
                     style={Object.assign({},styles.list, hoveredListIndex === i && styles.listHover)}
