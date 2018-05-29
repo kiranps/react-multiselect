@@ -23,7 +23,7 @@ const styles = {
     border: 'none',
     boxSizing: "border-box",
     outline: 'none',
-    padding: '5px 0 0 5px',
+    margin: '5px 0 0 5px',
     width: '36px',
   },
   hiddenInput: {
@@ -55,6 +55,7 @@ const styles = {
     margin: "5px 0 0 5px",
     borderRadius: "2px",
     backgroundColor: "#f3f3f3",
+    userSelect: "none",
     border: "1px solid #e8e8e8"
   },
   chipLabel: {
@@ -110,11 +111,13 @@ export default class extends Component {
     const {activeValues} = this.props;
     this.state = {isOpen: false, currentText: '', activeValues, hoveredListIndex: null};
     this.inputWidth = 5;
+    this.input = React.createRef();
+    this.textInput = React.createRef();
   }
 
   static defaultProps = {
     width: '280px',
-    height: '30px',
+    height: '32px',
     radius: '2px',
     placeholder: 'select',
     listHeight: '200px',
@@ -141,7 +144,7 @@ export default class extends Component {
   };
 
   componentDidUpdate = () => {
-    this.inputWidth =  this.refs.inputWidth.offsetWidth
+    this.inputWidth =  this.input.current.offsetWidth
   }
 
   handleChange = e => {
@@ -149,7 +152,7 @@ export default class extends Component {
   };
 
   focusTextBox = (e) => {
-    this.textInput.focus()
+    this.textInput.current.focus()
   }
 
   addToSelection = (value, e) => {
@@ -201,18 +204,18 @@ export default class extends Component {
               </div>
             )
           }
-          <div style={styles.hiddenInput} ref="inputWidth">{currentText}</div>
+          <div style={styles.hiddenInput} ref={this.input}>{currentText}</div>
           <input
             style={{...styles.input, width: inputWidth}}
             onFocus={this.handleFocus}
             value={currentText}
             onChange={this.handleChange}
-            ref={(input) => this.textInput = input}
+            ref={this.textInput}
             placeholder=""
           />
         </div>
         {
-          isOpen &&
+          isOpen && values.length > 0 &&
             <div style={{...styles.dropdown, width}}>
               {
                 values
