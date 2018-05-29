@@ -113,6 +113,15 @@ export default class extends Component {
     this.inputWidth = 5;
     this.input = React.createRef();
     this.textInput = React.createRef();
+    this.hide = this.hide.bind(this)
+    this.addToSelection = this.addToSelection.bind(this)
+    this.removeFromSelection = this.removeFromSelection.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
+    this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
+    this.focusTextBox = this.focusTextBox.bind(this)
   }
 
   static defaultProps = {
@@ -129,33 +138,33 @@ export default class extends Component {
     this.inputWidth = this.input.current.offsetWidth
   }
 
-  hide = e => {
+  handleFocus() {
+    this.setState({isOpen: true});
+    document.addEventListener('click', this.hide);
+  }
+
+  handleClick(e) {
+    const {currentText} = this.state;
+    this.setState({isOpen: true});
+  }
+
+  handleChange(e) {
+    this.setState({currentText: e.target.value, isOpen: true});
+  }
+
+  hide(e) {
     const {type} = e.target.dataset;
     if(type !== 'value') {
       this.setState({isOpen: false});
       document.removeEventListener('click', this.hide);
     }
-  };
+  }
 
-  handleFocus = () => {
-    this.setState({isOpen: true});
-    document.addEventListener('click', this.hide);
-  };
-
-  handleClick = e => {
-    const {currentText} = this.state;
-    this.setState({isOpen: true});
-  };
-
-  handleChange = e => {
-    this.setState({currentText: e.target.value, isOpen: true});
-  };
-
-  focusTextBox = (e) => {
+  focusTextBox(e) {
     this.textInput.current.focus()
   }
 
-  addToSelection = (value, e) => {
+  addToSelection(value, e) {
     const {activeValues} = this.state;
     const tmpActiveValues = new Set(activeValues);
     if (tmpActiveValues.has(value)) {
@@ -168,7 +177,7 @@ export default class extends Component {
     this.setState({activeValues: newActiveValues, currentText: ''});
   };
 
-  removeFromSelection = (e, value) => {
+  removeFromSelection(e, value) {
     e.stopPropagation()
     const {activeValues} = this.state;
     const tmpActiveValues = new Set(activeValues);
@@ -178,9 +187,13 @@ export default class extends Component {
     this.setState({activeValues: newActiveValues, currentText: ''});
   }
 
-  handleListMouseOver = (hoveredListIndex) => this.setState({hoveredListIndex})
+  handleMouseOver(hoveredListIndex) {
+    this.setState({hoveredListIndex})
+  }
 
-  handleListMouseOut = () => this.setState({hoveredListIndex: null})
+  handleMouseOut() {
+    this.setState({hoveredListIndex: null})
+  } 
 
   render() {
     const {width, height, values} = this.props;
@@ -224,8 +237,8 @@ export default class extends Component {
                   <div
                     data-type="value"
                     style={Object.assign({},styles.list, hoveredListIndex === i && styles.listHover)}
-                    onMouseOver={() => this.handleListMouseOver(i)}
-                    onMouseOut={() => this.handleListMouseOut(i)}
+                    onMouseOver={() => this.handletMouseOver(i)}
+                    onMouseOut={() => this.handleMouseOut(i)}
                     onClick={(e) => this.addToSelection(x, e)}
                     key={i}>
                     <div style={styles.listLabel}>{x}</div>
