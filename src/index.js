@@ -37,6 +37,7 @@ const styles = {
   dropdown: {
     position: "absolute",
     boxSizing: "border-box",
+    height: "200px",
     width: "inherit",
     letterSpacing: "0",
     boxShadow: "0 1px 5px 0 rgba(0, 0, 0, 0.3)",
@@ -240,28 +241,30 @@ export default class extends Component {
         {
           isOpen && filteredValues.length > 0 &&
             <div style={{...styles.dropdown, width}}>
-              {
-                filteredValues.map((x, i) =>
-                  <div
-                    data-type="value"
-                    style={Object.assign({},styles.list, hoveredListIndex === i && styles.listHover)}
-                    onMouseOver={() => this.handleMouseOver(i)}
-                    onMouseOut={() => this.handleMouseOut(i)}
-                    onClick={(e) => this.addToSelection(x, e)}
-                    key={i}>
-                    <div style={styles.listLabel}>{x}</div>
-                    {
-                      activeValues.includes(x) && 
-                        <Tick
-                          height="16"
-                          width="16"
-                          color={styles.listTick.color}
-                          style={styles.listTick}
-                        />
-                    }
-                  </div>
-                )
-              }
+              <Scrollbars autoHide autoHideTimeout={300}>
+                {
+                  filteredValues.map((x, i) =>
+                    <div
+                      data-type="value"
+                      style={Object.assign({},styles.list, hoveredListIndex === i && styles.listHover)}
+                      onMouseOver={() => this.handleMouseOver(i)}
+                      onMouseOut={() => this.handleMouseOut(i)}
+                      onClick={(e) => this.addToSelection(x, e)}
+                      key={i}>
+                      <div style={styles.listLabel}>{x}</div>
+                      {
+                        activeValues.includes(x) && 
+                          <Tick
+                            height="16"
+                            width="16"
+                            color={styles.listTick.color}
+                            style={styles.listTick}
+                          />
+                      }
+                    </div>
+                  )
+                }
+              </Scrollbars>
             </div>
         }
       </div>
