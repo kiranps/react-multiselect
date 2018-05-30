@@ -121,6 +121,7 @@ export default class extends Component {
     this.handleFocus = this.handleFocus.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
+    this.keyDown = this.keyDown.bind(this)
     this.focusTextBox = this.focusTextBox.bind(this)
   }
 
@@ -152,6 +153,12 @@ export default class extends Component {
     this.setState({currentText: e.target.value, isOpen: true});
   }
 
+  keyDown(e) {
+    if(e.keyCode === 8 && this.state.currentText === "") {
+      this.setState({activeValues: this.state.activeValues.slice(0, -1)});
+    }
+  }
+
   hide(e) {
     const {type} = e.target.dataset;
     if(type !== 'value') {
@@ -160,7 +167,7 @@ export default class extends Component {
     }
   }
 
-  focusTextBox(e) {
+  focusTextBox(e) { 
     this.textInput.current.focus()
   }
 
@@ -225,6 +232,7 @@ export default class extends Component {
             onFocus={this.handleFocus}
             value={currentText}
             onChange={this.handleChange}
+            onKeyDown={this.keyDown}
             ref={this.textInput}
             placeholder=""
           />
@@ -237,7 +245,7 @@ export default class extends Component {
                   <div
                     data-type="value"
                     style={Object.assign({},styles.list, hoveredListIndex === i && styles.listHover)}
-                    onMouseOver={() => this.handletMouseOver(i)}
+                    onMouseOver={() => this.handleMouseOver(i)}
                     onMouseOut={() => this.handleMouseOut(i)}
                     onClick={(e) => this.addToSelection(x, e)}
                     key={i}>
