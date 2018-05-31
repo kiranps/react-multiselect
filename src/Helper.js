@@ -57,13 +57,51 @@ TextInput.defaultProps = {
   width: "36px"
 }
 
-const DropDownList = styled.div`
+const List = styled.div`
+  position: absolute;
+  box-sizing: border-box;
+  height: 200px;
+  width: inherit;
+  letter-spacing: 0;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+  background-color: white;
+  border-radius: 0 0 1px 1px;
+  padding: 6px 0 6px 0;
+  z-index: 1;
+  margin-top: 1px;
+  font-family: sans-serif;
 `
 
-const DropDownListItem = styled.div`
+const ListItem = styled.div`
+  height: 28px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: table;
+  cursor: pointer;
+  color: #6d6d6d;
+  padding: 0 0 0 5px;
+  width: 100%;
+  font-size: 15px;
+  line-height: 28px;
+
+  > div {
+    display: inline-block;
+  }
+
+  &:hover {
+    background-color: #E9EFF3;
+  }
 `
 
-DropDownList.Item = DropDownListItem
+const ListItemLabel = styled.div`
+  display: "inline-block",
+  verticalAlign: "top",
+  boxSizing: "border-box",
+`
+
+List.Item = ListItem
+List.Item.Label = ListItemLabel
+
 InputBox.Column = Column
 
 export {
@@ -71,4 +109,5 @@ export {
   HiddenInput,
   TextInput,
   InputBox,
+  List
 }
