@@ -12,6 +12,12 @@ const DATA = [
   "six",
   "seven",
   "eight",
+  "hello",
+  "world",
+  "foo",
+  "bar",
+  "hi",
+  "kiran",
 ]
 
 

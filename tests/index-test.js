@@ -2,9 +2,20 @@ import expect from 'expect'
 import React from 'react'
 import {render, unmountComponentAtNode} from 'react-dom'
 
-import Component from 'src/'
+import MultiSelect from 'src/'
 
-describe('Component', () => {
+const DATA = [
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+]
+
+describe('MultiSelect', () => {
   let node
 
   beforeEach(() => {
@@ -16,7 +27,8 @@ describe('Component', () => {
   })
 
   it('displays a welcome message', () => {
-    render(<Component/>, node, () => {
+    render(<MultiSelect values={DATA}/>, node, () => {
+      console.log(node);
       expect(node.innerHTML).toContain('Welcome to React components')
     })
   })

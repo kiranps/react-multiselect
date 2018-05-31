@@ -1,15 +1,17 @@
 import React, {Component, Children} from 'react';
 import {Scrollbars} from 'react-custom-scrollbars';
+import Tag from './Tag'
+import Tick from './Tick'
+import Close from './Close'
+import Arrow from './Arrow'
+import {
+  MultiSelectContainer,
+  InputBox,
+  HiddenInput,
+  TextInput
+} from './Helper'
 
-const Tick = ({height, width, color, style}) =>
-  <svg width={width} height={height} style={style} fill={color} viewBox="0 0 24 24">
-    <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
-  </svg>
-
-const Close = ({height, width, color, style, onClick}) =>
-  <svg width={width} height={height} style={style} fill={color} viewBox="0 0 24 24" onClick={onClick}>
-    <path d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
-  </svg>
+const pxToNum = x => Number(x.replace("px", ""))
 
 const styles = {
   box: {
@@ -128,7 +130,7 @@ export default class extends Component {
 
   static defaultProps = {
     width: '280px',
-    height: '32px',
+    height: '33px',
     radius: '2px',
     placeholder: 'select',
     listHeight: '200px',
@@ -208,36 +210,28 @@ export default class extends Component {
     const {isOpen, currentText, activeValues, value, hoveredListIndex} = this.state;
     const filteredValues = values.filter(v => v.includes(currentText) || currentText === '')
     const inputWidth = 10 + this.inputWidth + "px"
+    console.log(this.inputWidth)
 
     return (
-      <div style={{width}} onClick={this.focusTextBox}>
-        <div style={{...styles.box, minHeight: height}}>
-          { 
-            activeValues.map((v, i) =>
-              <div key={i} style={styles.chip}>
-                <div style={styles.chipLabel}>{v}</div>
-                <Close
-                  key={(i + 1) * -1}
-                  style={styles.chipClose}
-                  height="12"
-                  width="12"
-                  color={styles.chipClose.color}
-                  onClick={e => this.removeFromSelection(e, v)}
-                />
-              </div>
-            )
-          }
-          <div style={styles.hiddenInput} ref={this.input}>{currentText}</div>
-          <input
-            style={{...styles.input, width: inputWidth}}
-            onFocus={this.handleFocus}
-            value={currentText}
-            onChange={this.handleChange}
-            onKeyDown={this.keyDown}
-            ref={this.textInput}
-            placeholder=""
-          />
-        </div>
+      <MultiSelectContainer width={width} onClick={this.focusTextBox}>
+        <InputBox height={height}>
+          <InputBox.Column width={pxToNum(width)-27}>
+            { activeValues.map((v, i) => <Tag key={i} label={v} onClose={this.removeFromSelection}/>) }
+            <HiddenInput innerRef={this.input}>{currentText}</HiddenInput>
+            <TextInput
+              width={inputWidth}
+              onFocus={this.handleFocus}
+              value={currentText}
+              onChange={this.handleChange}
+              onKeyDown={this.keyDown}
+              placeholder=""
+              innerRef={this.textInput}
+            />
+          </InputBox.Column>
+          <InputBox.Column width={25}>
+            <Arrow isOpen={isOpen}/>
+          </InputBox.Column>
+        </InputBox>
         {
           isOpen && filteredValues.length > 0 &&
             <div style={{...styles.dropdown, width}}>
@@ -267,7 +261,7 @@ export default class extends Component {
               </Scrollbars>
             </div>
         }
-      </div>
+      </MultiSelectContainer>
     )
   }
 }
