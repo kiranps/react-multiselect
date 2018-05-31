@@ -28,6 +28,7 @@ export default class extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+    this.handleClear = this.handleClear.bind(this)
     this.keyDown = this.keyDown.bind(this)
     this.focusTextBox = this.focusTextBox.bind(this)
   }
@@ -49,6 +50,10 @@ export default class extends Component {
   handleFocus() {
     this.setState({isOpen: true});
     document.addEventListener('click', this.hide);
+  }
+
+  handleClear() {
+    this.setState({activeValues: []});
   }
 
   handleClick(e) {
@@ -110,7 +115,7 @@ export default class extends Component {
     return (
       <MultiSelectContainer width={width} onClick={this.focusTextBox}>
         <InputBox height={height}>
-          <InputBox.Column width={pxToNum(width)-27}>
+          <InputBox.Column width={pxToNum(width)-52}>
             { activeValues.map((v, i) => <Tag key={i} label={v} onClose={this.removeFromSelection}/>) }
             <HiddenInput innerRef={this.input}>{currentText}</HiddenInput>
             <TextInput
@@ -122,6 +127,9 @@ export default class extends Component {
               placeholder=""
               innerRef={this.textInput}
             />
+          </InputBox.Column>
+          <InputBox.Column width={25} onClick={this.handleClear}>
+            <Close size={14}/>
           </InputBox.Column>
           <InputBox.Column width={25}>
             <Arrow isOpen={isOpen}/>

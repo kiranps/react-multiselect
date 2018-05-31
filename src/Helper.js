@@ -18,7 +18,6 @@ const InputBox = styled.div`
   border: solid 1px rgba(157, 180, 207, 0.7);
   background-color: #fff;
   box-sizing: border-box
-  padding-bottom: 6px;
 `
 
 const Column = styled.div`
@@ -26,9 +25,16 @@ const Column = styled.div`
   display: table-cell;
   vertical-align: top;
   width: ${props => props.width}px;
+  padding-bottom: 6px;
 
   &:last-child {
     vertical-align: middle;
+    padding-bottom: 0px;
+  }
+
+  &:nth-last-child(2) {
+    vertical-align: middle;
+    padding-bottom: 0px;
   }
 `
 
