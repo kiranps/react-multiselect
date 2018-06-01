@@ -20,6 +20,7 @@ const InputBox = styled.div`
   box-sizing: border-box
 `
 
+    //display: table-cell;
 const Column = styled.div`
   box-sizing: border-box;
   display: table-cell;
@@ -34,7 +35,8 @@ const Column = styled.div`
 
   &:nth-last-child(2) {
     vertical-align: middle;
-    padding-bottom: 0px;
+    text-align: center;
+    padding: 0 0 0px 5px;
   }
 `
 

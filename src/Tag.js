@@ -19,7 +19,7 @@ const TagLabel = styled.div`
   display: inline-block;
   vertical-align: top;
   box-sizing: border-box;
-  padding: 1px 2px 0 0;
+  padding: 2px 2px 0 0;
   color: #797979;
   font-family: sans-serif;
   font-size: 13px;
@@ -30,7 +30,7 @@ const TagClose = styled.div`
   box-sizing: border-box;
   vertical-align: top;
   color: #adadad;
-  padding-top: 1px;
+  padding-top: 4px;
   cursor: pointer;
 `
 
